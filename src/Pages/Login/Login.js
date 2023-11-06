@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -10,9 +11,33 @@ const Login = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setError('on'); 
-    console.log(email, password, remember);
-    navigate("/user"); 
+    try{
+      console.log(email, password);
+      await axios.post("http://localhost:5000/api/users/login",{
+        email, password
+      })
+      .then(res=>{ 
+        if(res.data.status==="ok"){
+          localStorage.clear(); 
+          // window.localStorage.setItem("token", res.data.data);
+          // window.localStorage.setItem("loggedIn", true);
+          navigate("/task"); 
+        }
+        else if(res.data.status==="error"){
+          alert("Invalid Password"); 
+        }
+        else {
+          alert("User Not Found"); 
+        }
+      })
+      .catch(e=>{
+        alert("Server Error"); 
+        console.log(e); 
+      })
+    }
+    catch(e){
+      console.log(e); 
+    } 
   }
 
   return (

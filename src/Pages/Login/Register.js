@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -8,12 +9,36 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
   const [remember, setRemember] = useState('off');
+  // const [error, setError] = useState("");
 
   async function handleSubmit(e){
     e.preventDefault();
-    console.log(userName, email, password, rePassword, remember);
-    
-    
+    if (
+      userName &&
+      email &&
+      password &&
+      rePassword) {
+      if (password !== rePassword ) {
+        alert('Password not match');
+      } else {
+        await axios.post("http://localhost:5000/api/users",{userName,email,password})
+        .then(res=>{
+          console.log(res.data.check); 
+          if(res.data==="exist"){
+            alert("User already exists"); 
+          }
+          else if(res.data==="notexist"){
+            navigate("/login");
+            alert("User added");
+            e.target.reset();
+          }
+        })
+        .catch(e=>{
+          alert("Server Error"); 
+          console.log(e); 
+        })
+      }
+    }
   }
 
   return (

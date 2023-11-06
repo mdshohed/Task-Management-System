@@ -6,10 +6,11 @@ import NotFound from "./Pages/Shared/NotFound";
 import UserLayout from "./Pages/Role/User/Layout/UserLayout";
 
 function App() {
+  
   return (
     <div>
       <Routes>
-        <Route path="/user" element={<UserLayout></UserLayout>}></Route>
+        <Route path="/task" element={<UserLayout></UserLayout>}></Route>
         <Route path="/" element={<Login/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Register></Register>}/>
