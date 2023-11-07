@@ -3,6 +3,7 @@
 - React
 - Tailwind
 - ReactRouter 
+- SweetAlert
 
 
 # Server

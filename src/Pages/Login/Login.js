@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,18 +22,18 @@ const Login = () => {
           localStorage.clear(); 
           // window.localStorage.setItem("token", res.data.data);
           // window.localStorage.setItem("loggedIn", true);
-          navigate("/task"); 
+          window.localStorage.setItem("role","user");
+          navigate("/task");  
         }
         else if(res.data.status==="error"){
-          alert("Invalid Password"); 
+          swal("Invalid Password"); 
         }
         else {
-          alert("User Not Found"); 
+          swal("User Not Found"); 
         }
       })
       .catch(e=>{
-        alert("Server Error"); 
-        console.log(e); 
+        swal("Server Error"); 
       })
     }
     catch(e){

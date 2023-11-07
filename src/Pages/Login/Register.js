@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import swal from 'sweetalert';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -19,22 +20,22 @@ const Register = () => {
       password &&
       rePassword) {
       if (password !== rePassword ) {
-        alert('Password not match');
+        swal('Password not match');
       } else {
         await axios.post("http://localhost:5000/api/users",{userName,email,password})
         .then(res=>{
           console.log(res.data.check); 
           if(res.data==="exist"){
-            alert("User already exists"); 
+            swal("User already exists"); 
           }
           else if(res.data==="notexist"){
             navigate("/login");
-            alert("User added");
+            swal("User added");
             e.target.reset();
           }
         })
         .catch(e=>{
-          alert("Server Error"); 
+          swal("Server Error"); 
           console.log(e); 
         })
       }
