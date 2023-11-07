@@ -1,16 +1,18 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
+import { UserContext } from '../../hooks/ReactHook';
 
 const Login = () => {
+  // const signIn = useContext(UserContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState('off');
   const[error, setError] = useState('off');
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e) { 
     e.preventDefault();
     try{
       console.log(email, password);
@@ -19,11 +21,12 @@ const Login = () => {
       })
       .then(res=>{ 
         if(res.data.status==="ok"){
-          localStorage.clear(); 
-          // window.localStorage.setItem("token", res.data.data);
-          // window.localStorage.setItem("loggedIn", true);
-          window.localStorage.setItem("role","user");
-          navigate("/task");  
+          localStorage.clear();
+          navigate("/task");
+          localStorage.setItem("role","user");
+          // console.log(signIn);
+          console.log('Password matched!'); 
+           
         }
         else if(res.data.status==="error"){
           swal("Invalid Password"); 

@@ -72,10 +72,9 @@ async function run(){
     });
 
     // Task operation
-    app.get('/api/all-task',async (req, res) => {
+    app.get('/api/task',async (req, res) => {
       const query = {};
-      const Task = await taskCollection.find(query);
-      const task = await Task.toArray();
+      const task = await taskCollection.find(query).toArray();
       res.send(task);
     });
 
@@ -90,31 +89,34 @@ async function run(){
       }
     });
 
-    app.delete('/api/task/delete-task', async(req, res)=>{
+    app.delete('/api/task/:id', async(req, res)=>{
       const id = req.params.id; 
-      const query = {_id:ObjectId(id)};
+      const query = {_id: new ObjectId(id)};
       const result = await taskCollection.deleteOne(query);
-      res.send(result); 
+      console.log(result);
+      res.send(result);  
     });
 
 
-   app.put( '/api/task/update-task', async (req, res) => {
-      const id = req.params.id;
-      const updatedTask = req.body;
-      const query = { _id: ObjectId(id) };
-      const options = { upsert: true };
-      const updatedDoc = {
-        $set: {
-          Name: updatedTask.Name,
-        },
-      };
-      const result = await taskCollection.updateOne(
-        query,
-        updatedDoc,
-        options
-      );
-      res.send("Task updated");
-    });
+  //  app.patch( '/api/task/:id', async (req, res) => {
+  //     const id = req.params.id;
+  //     const updatedTask = req.body;
+      
+  //     const query = { _id: ObjectId(id) };
+  //     const options = { upsert: true };
+  //     const updatedDoc = {
+  //       $set: {
+  //         taskName: updatedTask.Name,
+  //         taskDescription: updatedTask.taskDescription
+  //       },
+  //     };
+  //     const result = await taskCollection.updateOne(
+  //       query,
+  //       updatedDoc,
+  //       options
+  //     );
+  //     res.send("Task updated");
+  //   });
 
   }finally{
     // await client.close();

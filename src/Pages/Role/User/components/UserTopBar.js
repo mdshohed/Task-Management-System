@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
 import {Bars3CenterLeftIcon,ChevronDownIcon,Cog8ToothIcon,} from "@heroicons/react/24/solid";
 import { Menu, Transition, Popover } from "@headlessui/react";
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 
 const UserTopBar = ({ showNav, setShowNav }) => {
+  const navigate = useNavigate();
   const logOut = () => {
-    window.localStorage.clear();
-    window.location.reload();
-    Navigate("/login");
+    localStorage.clear();
+    navigate('/login');
   }
   return (
     <div className={`bg-[#85C206] fixed w-full h-16 flex justify-between items-center transition-all duration-[400ms]  ${showNav ? "pl-56" : ""}`}>

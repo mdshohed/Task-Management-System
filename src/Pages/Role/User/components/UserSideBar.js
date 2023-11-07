@@ -15,7 +15,7 @@ const UserSideBar = forwardRef(({ showNav }, ref) => {
         </div>
 
         <div className='flex flex-col'>
-          <Link to=''>
+          <Link to='/task'>
             <div className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors
             ${router.pathname === ""
                 ? 'bg-[#85C206] text-white '
@@ -26,7 +26,7 @@ const UserSideBar = forwardRef(({ showNav }, ref) => {
               <p>Home</p>
             </div>
           </Link>
-          <Link to=''>
+          <Link to='/task/view-task'>
             <div className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors
             ${router.pathname === ""
                 ? 'bg-[#85C206] text-white'
@@ -37,7 +37,7 @@ const UserSideBar = forwardRef(({ showNav }, ref) => {
                 <p>All Task</p>
             </div>
           </Link>
-          <Link to=''>
+          <Link to='/task/add-task'>
             <div className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors
             ${router.pathname === ""
                 ? 'bg-[#85C206] text-white '
