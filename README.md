@@ -1,10 +1,15 @@
 
-# Used Framework
+# Client
 - React
 - Tailwind
 - ReactRouter 
 - SweetAlert
+- axios
+
 
 
 # Server
-- npm install run-dev
+- express
+- mongodb
+- cors
+- dotenv
