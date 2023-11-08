@@ -8,7 +8,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 app.use(cors());
 app.use(express.json()); 
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.fvd5zsp.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.4nidofz.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri,{serverApi: {version: ServerApiVersion.v1,strict: true,deprecationErrors: true,}});
 
@@ -52,9 +52,6 @@ async function run(){
         let check = await userCollection.findOne({email:email});   
         console.log(check); 
         if(check.email===email && password===check.password){
-            // const token = await jwt.sign({email: email}, jwt_secret,{
-            //   expiresIn: 10,
-            // });
             res.json({status: "ok"});  
         }
 
@@ -67,7 +64,7 @@ async function run(){
          
       }
       catch(e){
-        res.json("Invalid User");  
+        res.json("Invalid User");    forehkvgh 
       }
     });
 
@@ -88,6 +85,13 @@ async function run(){
         res.json("Server Error");  
       }
     });
+    app.get('/api/task/:id', async(req, res)=>{
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}; 
+      const task = await taskCollection.findOne(query); 
+      console.log(task);
+      res.send(task); 
+    })
 
     app.delete('/api/task/:id', async(req, res)=>{
       const id = req.params.id; 
@@ -98,25 +102,25 @@ async function run(){
     });
 
 
-  //  app.patch( '/api/task/:id', async (req, res) => {
-  //     const id = req.params.id;
-  //     const updatedTask = req.body;
+   app.post( '/api/task/:id', async (req, res) => {
+      const id = req.params.id;
+      const updatedTask = req.body;
       
-  //     const query = { _id: ObjectId(id) };
-  //     const options = { upsert: true };
-  //     const updatedDoc = {
-  //       $set: {
-  //         taskName: updatedTask.Name,
-  //         taskDescription: updatedTask.taskDescription
-  //       },
-  //     };
-  //     const result = await taskCollection.updateOne(
-  //       query,
-  //       updatedDoc,
-  //       options
-  //     );
-  //     res.send("Task updated");
-  //   });
+      const query = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updatedDoc = {
+        $set: {
+          taskName: updatedTask.taskName,
+          taskDescription: updatedTask.taskDescription
+        },
+      };
+      const result = await taskCollection.updateOne(
+        query,
+        updatedDoc,
+        options
+      );
+      res.send("Task updated");
+    });
 
   }finally{
     // await client.close();

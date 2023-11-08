@@ -1,36 +1,38 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router-dom';
 import swal from 'sweetalert';
-import useTaskDetails from '../../../../hooks/useTaskDetails';
 
 const ViewSingleTask = () => {
-  
   const {id} = useParams(); 
-  const [taskdetails, setTaskdetails] = useTaskDetails(id); 
-  const [newTaskName, setNewTaskName] = useState('');
-  const [newTaskDescription, setNewTaskDescription] = useState('');
-  const {_id, taskName, taskDescription} = taskdetails; 
+  const [taskdetails, setTaskdetails] = useState({
+    id: id,
+    taskName: '',
+    taskDescription: ''
+  });
   
+  useEffect(()=>{
+    const url = `http://localhost:5000/api/task/${id}`; 
+    axios.get(url)
+    .then(res=>{
+      setTaskdetails({...taskdetails, taskName: res.data.taskName, taskDescription: res.data.taskDescription});
+    })
+    .catch(err=>console.log(err)) 
+  },[id])
 
+
+  const navigate = useNavigate();
   async function handleSubmit(e) {
     e.preventDefault();
-    if (taskName && taskDescription) {
-      await axios.post("http://localhost:5000/api/task",{
-        taskName, taskDescription
-      })
-      .then(res=>{
-        console.log(res.data.status); 
-        if(res.data.status==="ok"){
-          swal("Added Task");
-          e.target.reset(); 
-        }
-      })
-      .catch(e=>{
-        swal("Server Error"); 
-        console.log(e); 
-      })
-    }
+    const url = `http://localhost:5000/api/task/${id}`; 
+    await axios.post(url, taskdetails)
+    .then(res=>{
+        swal("Successfully Updated!");
+        navigate('/task/view-task')
+    })
+    .catch(e=>{ 
+      console.log(e);
+    })
   }
 
   return (
@@ -45,8 +47,8 @@ const ViewSingleTask = () => {
               type="text"
               placeholder="Task Name"
               id='taskName'
-              value={taskName}
-              onChange={(e) => setNewTaskName(e.target.value)}
+              value={taskdetails.taskName}
+              onChange={(e) => setTaskdetails({...taskdetails, taskName: e.target.value})}
               className="block  px-0 w-full text-md text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               required
             />
@@ -57,9 +59,10 @@ const ViewSingleTask = () => {
           <textarea 
             type="text"
             name="course-title"
+            rows="4" cols="40"
             id="task_description"
-            value={taskDescription}
-            onChange={(e) => setNewTaskDescription(e.target.value)}
+            value={taskdetails.taskDescription}
+            onChange={(e) => setTaskdetails({...taskdetails, taskDescription: e.target.value})}
             className="block py-2.5 px-0 w-full text-md text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
             placeholder="Description"
             required
@@ -68,7 +71,7 @@ const ViewSingleTask = () => {
         <button
           type="submit"
           className="text-white bg-blue-700 disabled:cursor-not-allowed hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center">
-          Add Task
+          Update Task
         </button>
       </form>
     </div>

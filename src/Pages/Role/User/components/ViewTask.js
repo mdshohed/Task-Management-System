@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import useTask from '../../../../hooks/useTask';
 import axios from 'axios';
 import swal from 'sweetalert';
-import { Navigate } from 'react-router';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ViewAllTask = () => {
+  const navigate = useNavigate();
   const [task, setTask] = useState([]);
 
   useEffect(()=>{
@@ -14,26 +15,28 @@ const ViewAllTask = () => {
   },[task])
 
   const handleOrderDelete = id =>{
-    const proceed = window.confirm('Are you sure you want to delete this Product'); 
-    if(proceed) {
-      const url = `http://localhost:5000/api/task/${id}`;
-      axios.delete(url)
-      .then(data=>{  
-        const remaining = task.filter(item=>item._id !== id);
-        swal('Successfully deleted'); 
-        setTask(remaining); 
-      })
-    }
-  }
-
-
-  const handleUpdateTask = id =>{
-    const url = `/task/${id}`;
-    Navigate(url); 
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this task!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((flag) => {
+      if (flag) {
+          const url = `http://localhost:5000/api/task/${id}`;
+          axios.delete(url)
+          .then(data=>{  
+            const remaining = task.filter(item=>item._id !== id);
+            swal('Successfully deleted'); 
+            setTask(remaining); 
+        })
+      }else{}
+    });
   }
 
   return (
-    <div className='ml-20 mr-20 mt-20'>
+    <div className='mx-10 my-20'>
       <div class="bg-gray-100 ">
         <table class=" text-left left w-full ">
           <thead className='text-left bg-gray-50 border-b-2 border-gray-200 '>
@@ -49,10 +52,10 @@ const ViewAllTask = () => {
               <tbody className='m-4'>
                 <tr className='bg-white-800  p-5 rounded-md shadow'>
                   <td className='text-sm text-gray-700 p-3'>{index+1}</td>
-                  <td className='pt-4 p-2'>{task.taskName}</td>
+                  <td className='p-3'>{task.taskName}</td>
                   <td>{task.taskDescription}</td>
-                  <button onClick={()=>handleUpdateTask(task._id)} type='button' className='mt-2 text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-3 py-2.5 text-center mr-2 mb-2'>Update</button>
-                  <button onClick={()=>handleOrderDelete(task._id)} type='button' className='mt-2 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-3 py-2.5 text-center mr-2 mb-1'>Delete</button>
+                  <Link to={`/task/view-task/${task._id}`} type='button' className='mt-2 text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-1.5 py-1.5 text-center mr-2 mb-2'>Update</Link>
+                  <button onClick={()=>handleOrderDelete(task._id)} type='button' className='mt-2 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-1.5 py-1.5 text-center mr-2 mb-2'>Delete</button>
                 </tr>
                 </tbody>
               ))

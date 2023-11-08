@@ -69,6 +69,7 @@ const AddTask = () => {
           <div className="relative z-0 mb-6 w-full group">
             <textarea 
               type="text"
+              rows="3" cols="40"
               name="course-title"
               id="task_description"
               onChange={(e) => setTaskDescription(e.target.value)}
@@ -86,7 +87,7 @@ const AddTask = () => {
       </div>
     </div>
 
-    <div className='ml-40 mr-40 '>
+    <div className='ml-20 mr-20 mb-20'>
       <div class="bg-gray-100 ">
         <table class=" text-left left w-full ">
           <thead className='text-left bg-gray-50 border-b-2 border-gray-200 '>
@@ -94,7 +95,6 @@ const AddTask = () => {
               <th>#</th>
               <th>Task Name</th>
               <th>Task Description</th>
-              <th>Action</th>
             </tr>
           </thead>
           {/* <tbody> */}
@@ -102,9 +102,8 @@ const AddTask = () => {
               <tbody className='m-4'>
                 <tr className='bg-white-800  p-5 rounded-md shadow'>
                   <td className='text-sm text-gray-700 p-3'>{index+1}</td>
-                  <td className='pt-4 p-2'>{task.taskName}</td>
+                  <td className=' p-3'>{task.taskName}</td>
                   <td>{task.taskDescription}</td>
-                  <button onClick={()=>handleOrderDelete(task._id)} type='button' className='mt-2 text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>Delete</button>
                 </tr>
                 </tbody>
               ))

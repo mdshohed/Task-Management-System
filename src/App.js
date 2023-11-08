@@ -9,6 +9,7 @@ import AddTask from "./Pages/Role/User/components/AddTask";
 import { UserContext } from "./hooks/ReactHook";
 import ViewTask from "./Pages/Role/User/components/ViewTask";
 import ViewSingleTask from "./Pages/Role/User/components/ViewSingleTask";
+import UserDashboard from "./Pages/Role/User/components/UserDashboard";
 
 function App() {
   const signIn = useContext(UserContext);
@@ -20,10 +21,10 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path='/signup' element={<Register></Register>}/>
         {/* <Route path='/task' element={<ProtectedUser signIn={signIn}><UserLayout><AddTask></AddTask></UserLayout></ProtectedUser>}></Route> */}
-        <Route path="/task" element={<UserLayout><AddTask></AddTask></UserLayout>}></Route>
+        <Route path="/task" element={<UserLayout><UserDashboard></UserDashboard></UserLayout>}></Route>
         <Route path="/task/add-task" element={<UserLayout><AddTask></AddTask></UserLayout>}></Route>
         <Route path="/task/view-task" element={<UserLayout><ViewTask></ViewTask></UserLayout>}></Route>
-        <Route path="/task/:id" element={<UserLayout><ViewSingleTask></ViewSingleTask></UserLayout>}></Route>
+        <Route path="/task/view-task/:id" element={<UserLayout><ViewSingleTask></ViewSingleTask></UserLayout>}></Route>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
     </div>

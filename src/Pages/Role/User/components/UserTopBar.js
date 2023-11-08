@@ -12,7 +12,7 @@ const UserTopBar = ({ showNav, setShowNav }) => {
   }
   return (
     <div className={`bg-[#85C206] fixed w-full h-16 flex justify-between items-center transition-all duration-[400ms]  ${showNav ? "pl-56" : ""}`}>
-      <div className="pl-4 md:pl-16">
+      <div className="pl-4 ">
         <Bars3CenterLeftIcon
           className="h-8 w-8 text-gray-700 cursor-pointer"
           onClick={() => setShowNav(!showNav)}
