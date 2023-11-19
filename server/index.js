@@ -1,17 +1,37 @@
 const express = require('express')
 const cors = require('cors');
 require('dotenv').config();
-const app = express()
 const port = process.env.PORT || 5000
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser')
 
-app.use(cors());
+const app = express()
+app.use(cors({
+  origin: ["http://localhost:3000"],
+  methods: ["GET", "POST"],
+  credentials: true
+}));
 app.use(express.json()); 
+app.use(cookieParser());
+
+const verifyUser = (req, res, next) =>{
+  const token = req.cookies.token;
+  if(!token){
+    return res.json("The token was not available");
+  }else{
+    jwt.verify(token, "jwt-secret-key",(err, req)=>{
+      if(err){
+        return res.json("Token is Wrong");
+      }
+      next();
+    })
+  }
+}
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.4nidofz.mongodb.net/?retryWrites=true&w=majority`;
-
 const client = new MongoClient(uri,{serverApi: {version: ServerApiVersion.v1,strict: true,deprecationErrors: true,}});
-
 
 async function run(){
   try{
@@ -20,62 +40,66 @@ async function run(){
     const taskCollection = client.db("task_management").collection("task");
 
     // Get all users
-    app.get('/api/users', async(req, res)=>{
+    app.get('/api/users', verifyUser, async(req, res)=>{
       const query = {};
       const cursor = userCollection.find(query);
       const users = await cursor.toArray();
-      console.log(users); 
+
       res.send(users);
     })
 
-    // Post user
+    // Create a User Using: Post "api/users"
     app.post('/api/users', async(req, res)=>{
       const newUser = req.body;
       try{
-        const check = await userCollection.findOne({email:newUser.email}); 
-        if(check){
-          res.json("exist"); 
+        const user = await userCollection.findOne({email:newUser.email});
+        if(user){
+          return res.json({status: false, error: "Sorry a user with this email already exists"}); 
         }
-        else {
-          await userCollection.insertOne(newUser); 
-          res.json("notexist"); 
-        }
+        bcrypt.hash(newUser.password, 10)
+        .then(hash=>{
+          newUser.password = hash;
+          console.log(newUser);
+          userCollection.insertOne(newUser); 
+          return res.json({status: true, success: "User Successfully Added!"})
+        }).catch(err=>{
+          console.log(err)
+        })
       }
       catch(e){
-        res.json("Server Error");  
+        return res.json("Server Error!");  
       }
     });
 
     app.post('/api/users/login', async(req, res)=>{
       const{email, password} = req.body; 
-      try{
-        let check = await userCollection.findOne({email:email});   
-        console.log(check); 
-        if(check.email===email && password===check.password){
-            res.json({status: "ok"});  
-        }
-
-        else if(check){
-          res.json({status: "error"});
-        }
-        else{
-          res.json({status: "error2" });
-        }
-         
-      }
-      catch(e){
-        res.json("Invalid User");    forehkvgh 
-      }
+      userCollection.findOne({email:email})
+      .then(user=>{
+          if(user){
+            bcrypt.compare(password, user.password, (err, response)=>{
+              if(response){
+                const token = jwt.sign({id: user._id, email: user.email},  "jwt-secret-key", {expiresIn: "1d"})
+                res.cookie("token", token);
+                return res.json({token: token, login: true, user, success: "Successfully Login!"}); 
+              }
+              else{
+                return res.json({login: false, error: "the password is incorrect!"})
+              }
+            });
+          }else{
+            return res.json({login: false, error: "No Record existed"});
+          }
+      })
     });
 
     // Task operation
-    app.get('/api/task',async (req, res) => {
+    app.get('/api/task', verifyUser, async (req, res) => {
       const query = {};
       const task = await taskCollection.find(query).toArray();
-      res.send(task);
+      return res.send(task);
     });
 
-    app.post( '/api/task', async (req, res) => {
+    app.post('/api/task', verifyUser,  async (req, res) => {
       const newTask = req.body;
       try{
         await taskCollection.insertOne(newTask);
@@ -85,24 +109,22 @@ async function run(){
         res.json("Server Error");  
       }
     });
-    app.get('/api/task/:id', async(req, res)=>{
+    app.get('/api/task/:id', verifyUser, async(req, res)=>{
       const id = req.params.id;
       const query = {_id: new ObjectId(id)}; 
       const task = await taskCollection.findOne(query); 
-      console.log(task);
       res.send(task); 
     })
 
-    app.delete('/api/task/:id', async(req, res)=>{
+    app.delete('/api/task/:id',verifyUser, async(req, res)=>{
       const id = req.params.id; 
       const query = {_id: new ObjectId(id)};
       const result = await taskCollection.deleteOne(query);
-      console.log(result);
       res.send(result);  
     });
 
 
-   app.post( '/api/task/:id', async (req, res) => {
+   app.post( '/api/task/:id',verifyUser, async (req, res) => {
       const id = req.params.id;
       const updatedTask = req.body;
       
@@ -114,7 +136,7 @@ async function run(){
           taskDescription: updatedTask.taskDescription
         },
       };
-      const result = await taskCollection.updateOne(
+      taskCollection.updateOne(
         query,
         updatedDoc,
         options

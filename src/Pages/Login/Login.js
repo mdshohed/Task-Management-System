@@ -2,40 +2,44 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
-import { UserContext } from '../../hooks/ReactHook';
+import UserContext from '../../context/UserContext';
 
 const Login = () => {
-  // const signIn = useContext(UserContext);
+  const { setSignedIn} = useContext(UserContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState('off');
   const[error, setError] = useState('off');
 
+  axios.defaults.withCredentials= true;
   async function handleSubmit(e) { 
     e.preventDefault();
     try{
-      console.log(email, password);
       await axios.post("http://localhost:5000/api/users/login",{
         email, password
       })
       .then(res=>{ 
-        if(res.data.status==="ok"){
-          localStorage.clear();
-          navigate("/task");
-          localStorage.setItem("role","user");
-          // console.log(signIn);
-          console.log('Password matched!'); 
-           
+        if(res.data.login===true){
+          console.log(res.login, res.data.role);
+          if(res.data.user.role==="user"){
+            setSignedIn("user");
+            localStorage.setItem("role","user");
+            navigate("/userTask");
+          }
+          else if(res.data.user.role==="admin"){
+            setSignedIn("admin");
+            localStorage.setItem("role","admin");
+            navigate("/adminTask");
+          }
+          else {
+            swal("User Not Found"); 
+          }
         }
-        else if(res.data.status==="error"){
-          swal("Invalid Password"); 
+        else{
+          swal(res.data.error); 
         }
-        else {
-          swal("User Not Found"); 
-        }
-      })
-      .catch(e=>{
+      }).catch(e=>{
         swal("Server Error"); 
       })
     }

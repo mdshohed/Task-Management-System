@@ -12,6 +12,7 @@
 
 ## Used react library to build client site. 
 - React
+- React hooks
 - Tailwind
 - ReactRouter 
 - SweetAlert
@@ -21,5 +22,8 @@
 ## Used library to build server site.
 - express
 - mongodb
+- jsonwebtoken
 - cors
 - dotenv
+- bcryptjs
+- cookie-parser

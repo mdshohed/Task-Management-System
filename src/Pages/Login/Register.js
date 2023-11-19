@@ -10,6 +10,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
   const [remember, setRemember] = useState('off');
+  const[role, setRole] = useState('user');
   // const [error, setError] = useState("");
 
   async function handleSubmit(e){
@@ -22,15 +23,15 @@ const Register = () => {
       if (password !== rePassword ) {
         swal('Password not match');
       } else {
-        await axios.post("http://localhost:5000/api/users",{userName,email,password})
+        await axios.post("http://localhost:5000/api/users",{userName,email,password, role})
         .then(res=>{
-          console.log(res.data.check); 
-          if(res.data==="exist"){
-            swal("User already exists"); 
+          console.log(res.data);
+          if(res.data.status===false){
+            swal(res.data.error); 
           }
-          else if(res.data==="notexist"){
+          else if(res.data.status===true){
             navigate("/login");
-            swal("User added");
+            swal(res.data.success);
             e.target.reset();
           }
         })

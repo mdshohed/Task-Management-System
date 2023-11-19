@@ -1,18 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import swal from 'sweetalert';
-import useTask from '../../../../hooks/useTask';
+import useTaskInfo from '../../../../hooks/useTaskInfo';
 
 const AddTask = () => {
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
-  const [task, setTask] = useState([]);
-
-  useEffect(()=>{
-    axios.get('http://localhost:5000/api/task').then((response) => {
-      setTask(response.data);
-    });
-  },[task])
+  const [task] = useTaskInfo()
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -21,29 +15,15 @@ const AddTask = () => {
         taskName, taskDescription
       })
       .then(res=>{
-        console.log(res.data.status); 
         if(res.data.status==="ok"){
           swal("Added Task");
           e.target.reset(); 
         }
       })
       .catch(e=>{
-        swal("Server Error"); 
-        console.log(e); 
+        swal("Server Error", e);  
       })
     }
-  }
- 
-  const handleOrderDelete = (id) =>{
-    const proceed = window.confirm('Are you sure you want to delete this Course');
-    if(proceed) {
-      const url = `http://localhost:5000/api/task/${id}`;
-      axios.delete(url).then(data=>{  
-          const remaining = task.filter(item=>item._id !== id);
-          swal('Successfully deleted'); 
-          setTask(remaining); 
-        })
-    }  
   }
 
   return (
@@ -53,7 +33,6 @@ const AddTask = () => {
         <form onSubmit={handleSubmit} className="w-96 mx-auto"> 
           <h2 className="mb-6 mt-4 text-3xl font-bold text-center ">Add Task</h2>
 
-          {/* <div className="grid md:grid-cols-2 md:gap-6"> */}
             <div className="relative z-0 mb-6 w-full group">
               <input
                 type="text"
@@ -64,7 +43,6 @@ const AddTask = () => {
                 required
               />
             </div>
-          {/* </div> */}
 
           <div className="relative z-0 mb-6 w-full group">
             <textarea 

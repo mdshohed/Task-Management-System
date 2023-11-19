@@ -1,47 +1,40 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import swal from 'sweetalert';
+import useTaskDetails from '../../../../hooks/useTaskDetails';
+import UserContext from '../../../../context/UserContext';
 
 const ViewSingleTask = () => {
   const {id} = useParams(); 
+  const {taskDetail} = useTaskDetails(id);
   const [taskdetails, setTaskdetails] = useState({
     id: id,
     taskName: '',
     taskDescription: ''
   });
-  
+
   useEffect(()=>{
-    const url = `http://localhost:5000/api/task/${id}`; 
-    axios.get(url)
-    .then(res=>{
-      setTaskdetails({...taskdetails, taskName: res.data.taskName, taskDescription: res.data.taskDescription});
-    })
-    .catch(err=>console.log(err)) 
-  },[id])
+    setTaskdetails({...taskdetails, taskName: taskDetail.taskName, taskDescription: taskDetail.taskDescription});
+    
+  },[taskDetail])
 
-
+  const { UpdateData } = useContext(UserContext);
+  
   const navigate = useNavigate();
-  async function handleSubmit(e) {
-    e.preventDefault();
-    const url = `http://localhost:5000/api/task/${id}`; 
-    await axios.post(url, taskdetails)
-    .then(res=>{
-        swal("Successfully Updated!");
-        navigate('/task/view-task')
-    })
-    .catch(e=>{ 
-      console.log(e);
-    })
-  }
+
+  const handleUpdateSubmit = (e, data) => {
+    UpdateData(taskdetails);
+    navigate('/userTask/view-task')
+  };
 
   return (
     <div className="md:flex justify-center items-center mt-10">
     <div className="mx-auto md:flex mb-20 justify-between items-center animate-zoomIn  bg-white px-20 py-6 rounded-lg shadow-2xl">
-      <form onSubmit={handleSubmit} className="w-96 mx-auto"> 
+      <form onSubmit={handleUpdateSubmit} className="w-96 mx-auto"> 
         <h2 className="mb-6 mt-4 text-3xl font-bold text-center ">Add Task</h2>
 
-        {/* <div className="grid md:grid-cols-2 md:gap-6"> */}
+       
           <div className="relative z-0 mb-6 w-full group">
             <input
               type="text"
@@ -53,7 +46,6 @@ const ViewSingleTask = () => {
               required
             />
           </div>
-        {/* </div> */}
 
         <div className="relative z-0 mb-6 w-full group">
           <textarea 

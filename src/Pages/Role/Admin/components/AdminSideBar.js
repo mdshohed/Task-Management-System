@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import {AiOutlineFileAdd} from "react-icons/ai";
 import {MdOutlineAssignmentInd} from "react-icons/md";
 
-const UserSideBar = forwardRef(({ showNav }, ref) => {
+const AdminSideBar = forwardRef(({ showNav }, ref) => {
   const router = useLocation();
     return (
       <div ref={ref} className="bg-[#2D323E] fixed w-56 h-full shadow-lg border-r-1 border-gray-200">
@@ -15,7 +15,7 @@ const UserSideBar = forwardRef(({ showNav }, ref) => {
         </div>
 
         <div className='flex flex-col'>
-          <Link to='/userTask'>
+          <Link to='/adminTask'>
             <div className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors
             ${router.pathname === ""
                 ? 'bg-[#85C206] text-white '
@@ -26,7 +26,7 @@ const UserSideBar = forwardRef(({ showNav }, ref) => {
               <p>Home</p>
             </div>
           </Link>
-          <Link to='/userTask/view-task'>
+          <Link to='/adminTask/view-task'>
             <div className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors
             ${router.pathname === ""
                 ? 'bg-[#85C206] text-white'
@@ -37,7 +37,7 @@ const UserSideBar = forwardRef(({ showNav }, ref) => {
                 <p>All Task</p>
             </div>
           </Link>
-          <Link to='/userTask/add-task'>
+          <Link to='/adminTask/add-task'>
             <div className={`pl-6 py-3 mx-5 rounded text-center cursor-pointer mb-3 flex items-center transition-colors
             ${router.pathname === ""
                 ? 'bg-[#85C206] text-white '
@@ -53,4 +53,4 @@ const UserSideBar = forwardRef(({ showNav }, ref) => {
     );
 });
 
-export default UserSideBar;
+export default AdminSideBar;

@@ -1,9 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
-import useTaskInfo from '../../../../hooks/useTaskInfo';
-import UserContext from '../../../../context/UserContext';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import swal from 'sweetalert';
 
-const UserDashboard = () => {
-  const {task} = useContext(UserContext)
+const AdminDashboard = () => {
+  const [task, setTask] = useState([]);
+
+  useEffect(()=>{
+    axios.get('http://localhost:5000/api/task').then((response) => {
+      setTask(response.data);
+    });
+  },[task])
 
   return (
     <>
@@ -17,4 +23,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+export default AdminDashboard;
