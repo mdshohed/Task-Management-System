@@ -13,12 +13,11 @@ const Login = () => {
   async function handleSubmit(e) { 
     e.preventDefault();
     try{
-      await axios.post("http://localhost:5000/api/user/login",{
+      await axios.post("https://task-manager-server-rust.vercel.app/api/user/login",{
         email, password
       })
       .then(res=>{ 
         if(res.data.login===true){
-          console.log(res.data.user.role);
           if(res.data.user.role==="user"){
             localStorage.setItem("role","user");
             navigate("/userTask");

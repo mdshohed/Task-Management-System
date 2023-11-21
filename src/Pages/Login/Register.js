@@ -22,9 +22,8 @@ const Register = () => {
       if (password !== rePassword ) {
         swal('Password not match');
       } else {
-        await axios.post("http://localhost:5000/api/users",{userName,email,password, role})
+        await axios.post("https://task-manager-server-rust.vercel.app/api/users",{userName,email,password, role})
         .then(res=>{
-          console.log(res.data);
           if(res.data.status===false){
             swal(res.data.error); 
           }

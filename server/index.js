@@ -59,7 +59,6 @@ async function run(){
         bcrypt.hash(newUser.password, 10)
         .then(hash=>{
           newUser.password = hash;
-          console.log(newUser);
           userCollection.insertOne(newUser); 
           return res.json({status: true, success: "User Successfully Added!"})
         }).catch(err=>{
@@ -96,7 +95,6 @@ async function run(){
     app.get('/api/task', async (req, res) => {
       const query = {};
       const task = await taskCollection.find(query).toArray();
-      console.log(task);
       return res.send(task);
     });
 

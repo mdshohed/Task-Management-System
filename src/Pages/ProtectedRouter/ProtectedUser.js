@@ -5,8 +5,6 @@ import UserContext from '../../context/UserContext';
 function ProtectedUser({ children }) {
   const { signIn} = useContext(UserContext);
 
-  console.log(signIn, "Provider")
-
   if (signIn !== "user") {
     return <Navigate to="/login" replace />
   }

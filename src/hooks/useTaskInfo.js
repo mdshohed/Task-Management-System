@@ -5,7 +5,7 @@ const useTaskInfo = () => {
   const [task, setTask] = useState([]); 
 
   useEffect(()=>{
-    axios.get('http://localhost:5000/api/task')
+    axios.get('https://task-manager-server-rust.vercel.app/api/task')
     .then((res) => {
       setTask(res.data);
     }).catch(er=>{

@@ -14,7 +14,7 @@ export const UserContextProvider = ({ children }) => {
 
     
   const UpdateData = (data) => {
-    const url = `http://localhost:5000/api/task/${data.id}`; 
+    const url = `https://task-manager-server-rust.vercel.app/api/task/${data.id}`; 
     axios.post(url, data)
     .then(res=>{
       swal("Successfully Updated!");
@@ -24,13 +24,12 @@ export const UserContextProvider = ({ children }) => {
   };
 
   const DeleteTask = (id) => {
-    console.log('delete Function');
     swal({ title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this task!",
       icon: "warning", buttons: true, dangerMode: true })
     .then((flag) => {
       if (flag) {
-          const url = `http://localhost:5000/api/task/${id}`;
+          const url = `https://task-manager-server-rust.vercel.app/api/task/${id}`;
           axios.delete(url)
           .then(data=>{  
             const remaining = task.filter(item=>item._id !== id);
