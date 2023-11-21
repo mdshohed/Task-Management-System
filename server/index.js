@@ -15,7 +15,7 @@ app.use(cors(
   {
   origin: ["https://task-manager-client-one.vercel.app"],
   methods: ["GET", "POST"],
-  credentials: true
+  credentials: false
 }
 ));
 
