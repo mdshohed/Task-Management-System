@@ -13,7 +13,7 @@ export const UserContextProvider = ({ children }) => {
 
   axios.defaults.withCredentials= true;
   useEffect(()=>{
-    axios.get('http://localhost:5000/api/task')
+    axios.get('https://task-manager-server-n5ozh8y4l-mdshohed.vercel.app/api/task')
     .then((res) => {
       setTask(res.data);
     });
@@ -21,7 +21,7 @@ export const UserContextProvider = ({ children }) => {
     
   
   const UpdateData = (data) => {
-    const url = `http://localhost:5000/api/task/${data.id}`; 
+    const url = `https://task-manager-server-n5ozh8y4l-mdshohed.vercel.app/api/task/${data.id}`; 
     axios.post(url, data)
     .then(res=>{
       swal("Successfully Updated!");
@@ -36,7 +36,7 @@ export const UserContextProvider = ({ children }) => {
       icon: "warning", buttons: true, dangerMode: true })
     .then((flag) => {
       if (flag) {
-          const url = `http://localhost:5000/api/task/${id}`;
+          const url = `https://task-manager-server-n5ozh8y4l-mdshohed.vercel.app/api/task/${id}`;
           axios.delete(url)
           .then(data=>{  
             const remaining = task.filter(item=>item._id !== id);

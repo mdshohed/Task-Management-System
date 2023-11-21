@@ -6,7 +6,7 @@ const AdminDashboard = () => {
   const [task, setTask] = useState([]);
 
   useEffect(()=>{
-    axios.get('http://localhost:5000/api/task').then((response) => {
+    axios.get('https://task-manager-server-n5ozh8y4l-mdshohed.vercel.app/api/task').then((response) => {
       setTask(response.data);
     });
   },[task])

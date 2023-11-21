@@ -11,7 +11,7 @@ const AddTask = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     if (taskName && taskDescription) {
-      await axios.post("http://localhost:5000/api/task",{
+      await axios.post("https://task-manager-server-n5ozh8y4l-mdshohed.vercel.app/api/task",{
         taskName, taskDescription
       })
       .then(res=>{
