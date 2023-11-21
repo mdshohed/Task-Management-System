@@ -1,8 +1,7 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
-import UserContext from '../../context/UserContext';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -10,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const[error, setError] = useState(false);
 
-  axios.defaults.withCredentials = t
+  axios.defaults.withCredentials = true
   async function handleSubmit(e) { 
     e.preventDefault();
     try{
