@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser')
 
 const app = express()
 app.use(cors({
-  origin: ["http://localhost:3000"],
+  origin: ["https://task-manager-client-one.vercel.app"],
   methods: ["GET", "POST"],
   credentials: true
 }));
