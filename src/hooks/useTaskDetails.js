@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 const useTaskDetails = (id) => {
   const [taskDetail, setTaskDetail] = useState({}); 
   useEffect(()=>{
-    const url = `https://task-manager-server-n5ozh8y4l-mdshohed.vercel.app/api/task/${id}`; 
+    const url = `task-manager-server-rust.vercel.app/${id}`; 
     axios.get(url)
     .then(res=>{
       setTaskDetail(res.data)
