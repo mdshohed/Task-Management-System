@@ -16,7 +16,7 @@ const Login = () => {
   async function handleSubmit(e) { 
     e.preventDefault();
     try{
-      await axios.post("https://task-manager-server-n5ozh8y4l-mdshohed.vercel.app/api/users/login",{
+      await axios.post("task-manager-server-rust.vercel.app/api/users/login",{
         email, password
       })
       .then(res=>{ 

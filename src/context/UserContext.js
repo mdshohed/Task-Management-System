@@ -13,7 +13,7 @@ export const UserContextProvider = ({ children }) => {
 
   axios.defaults.withCredentials= true;
   useEffect(()=>{
-    axios.get('task-manager-server-rust.vercel.app')
+    axios.get('https://task-manager-server-rust.vercel.app')
     .then((res) => {
       setTask(res.data);
     });
@@ -21,7 +21,7 @@ export const UserContextProvider = ({ children }) => {
     
   
   const UpdateData = (data) => {
-    const url = `task-manager-server-rust.vercel.app/${data.id}`; 
+    const url = `https://task-manager-server-rust.vercel.app/${data.id}`; 
     axios.post(url, data)
     .then(res=>{
       swal("Successfully Updated!");
@@ -36,7 +36,7 @@ export const UserContextProvider = ({ children }) => {
       icon: "warning", buttons: true, dangerMode: true })
     .then((flag) => {
       if (flag) {
-          const url = `task-manager-server-rust.vercel.app/${id}`;
+          const url = `https://task-manager-server-rust.vercel.app/${id}`;
           axios.delete(url)
           .then(data=>{  
             const remaining = task.filter(item=>item._id !== id);

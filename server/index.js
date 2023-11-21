@@ -93,13 +93,13 @@ async function run(){
     });
 
     // Task operation
-    app.get('/api/task', verifyUser, async (req, res) => {
+    app.get('/api/task', async (req, res) => {
       const query = {};
       const task = await taskCollection.find(query).toArray();
       return res.send(task);
     });
 
-    app.post('/api/task', verifyUser,  async (req, res) => {
+    app.post('/api/task',  async (req, res) => {
       const newTask = req.body;
       try{
         await taskCollection.insertOne(newTask);
@@ -109,14 +109,14 @@ async function run(){
         res.json("Server Error");  
       }
     });
-    app.get('/api/task/:id', verifyUser, async(req, res)=>{
+    app.get('/api/task/:id', async(req, res)=>{
       const id = req.params.id;
       const query = {_id: new ObjectId(id)}; 
       const task = await taskCollection.findOne(query); 
       res.send(task); 
     })
 
-    app.delete('/api/task/:id',verifyUser, async(req, res)=>{
+    app.delete('/api/task/:id', async(req, res)=>{
       const id = req.params.id; 
       const query = {_id: new ObjectId(id)};
       const result = await taskCollection.deleteOne(query);
@@ -124,7 +124,7 @@ async function run(){
     });
 
 
-   app.post( '/api/task/:id',verifyUser, async (req, res) => {
+   app.post( '/api/task/:id', async (req, res) => {
       const id = req.params.id;
       const updatedTask = req.body;
       
