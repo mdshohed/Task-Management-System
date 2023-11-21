@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import {Bars3CenterLeftIcon,ChevronDownIcon,Cog8ToothIcon,} from "@heroicons/react/24/solid";
 import { Menu, Transition, Popover } from "@headlessui/react";
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const AdminTopBar = ({ showNav, setShowNav }) => {

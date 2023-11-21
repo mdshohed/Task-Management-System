@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import useTaskInfo from '../../../../hooks/useTaskInfo';
-import UserContext from '../../../../context/UserContext';
 
 const UserDashboard = () => {
   const [task, DeleteTask] = useTaskInfo(); 
