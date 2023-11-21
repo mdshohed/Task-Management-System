@@ -18,7 +18,6 @@
 - SweetAlert
 - axios
 
-
 ## Used library to build server site.
 - express
 - mongodb

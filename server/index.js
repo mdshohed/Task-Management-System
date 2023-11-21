@@ -40,7 +40,7 @@ async function run(){
     const taskCollection = client.db("task_management").collection("task");
 
     // Get all users
-    app.get('/api/users', verifyUser, async(req, res)=>{
+    app.get('/api/users', async(req, res)=>{
       const query = {};
       const cursor = userCollection.find(query);
       const users = await cursor.toArray();
