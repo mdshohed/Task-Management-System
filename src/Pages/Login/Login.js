@@ -8,8 +8,9 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const[error, setError] = useState('off');
+  const[error, setError] = useState(false);
 
+  axios.defaults.withCredentials = t
   async function handleSubmit(e) { 
     e.preventDefault();
     try{
@@ -44,7 +45,7 @@ const Login = () => {
 
   return (
     <div className='flex flex-col items-center mt-[100px]'>
-      <div className='w-1/2 bg-[#f5f5f5] flex flex-col p-20  items-center max-w-[600px]'>
+      <div className='w-1/2 bg-[#f5f5f5] flex flex-col p-20  items-center min-w-[600px] max-w-[600px]'>
         <form onSubmit={handleSubmit} className="w-96 mx-auto">
           <div className='w-full flex flex-col'>
             <div className='w-full flex flex-col mb-2'>
@@ -82,8 +83,8 @@ const Login = () => {
             </div>
 
             <div className='w-full flex items-center justify-center relative py-4'>
-              <div className='w-full h-[1px] bg-black'></div>
-              <p className='text-lg absolute text-black/80 bg-[#f5f5f5]'>or</p>
+            <div className='w-full h-[2px] bg-black mt-1'></div>
+              <p className='text-lg absolute text-black/80 bg-[#f5f5f5] '>Or</p>
             </div>
           </div>
         </form>

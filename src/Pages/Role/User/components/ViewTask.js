@@ -5,6 +5,7 @@ import UserContext from '../../../../context/UserContext';
 
 const ViewAllTask = () => {
   const [task, setTask] = useTaskInfo();
+  console.log(task);
   const {DeleteTask} = useContext(UserContext);
   
   const handleTaskDelete = (id) => {
