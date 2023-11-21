@@ -9,7 +9,6 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
-  const [remember, setRemember] = useState('off');
   const[role, setRole] = useState('user');
   // const [error, setError] = useState("");
 
@@ -23,7 +22,7 @@ const Register = () => {
       if (password !== rePassword ) {
         swal('Password not match');
       } else {
-        await axios.post("https://task-manager-server-rust.vercel.app/api/users",{userName,email,password, role})
+        await axios.post("http://localhost:5000/api/users",{userName,email,password, role})
         .then(res=>{
           console.log(res.data);
           if(res.data.status===false){
@@ -78,19 +77,6 @@ const Register = () => {
                 onChange={(e) => setRePassword(e.target.value)}
                 placeholder="Confirm Password" 
                 className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
-
-            </div>
-
-            <div className='w-full flex items-center justify-between'>
-              <div className='w-full flex items-center'>
-                <input 
-                type="checkbox"
-                required
-                onChange={(e)=>setRemember(e.target.value)}
-                className="w-4 h-4 mr-2"/>
-                <p className='text-sm'>Remember me</p>
-              </div>
-              <p className='text-sm font-medium whitespace-nowrap cursor-pointer underline underline-offset-2'>Forgot Password ?</p>
             </div>
 
             <div className='w-full flex flex-col my-4'>

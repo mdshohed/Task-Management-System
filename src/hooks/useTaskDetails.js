@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 
 const useTaskDetails = (id) => {
   const [taskDetail, setTaskDetail] = useState({}); 
+
   useEffect(()=>{
-    const url = `https://task-manager-server-rust.vercel.app/${id}`; 
+    const url = `http://localhost:5000/api/task/${id}`; 
     axios.get(url)
     .then(res=>{
       setTaskDetail(res.data)

@@ -8,6 +8,7 @@ import UserContext from '../../../../context/UserContext';
 const ViewSingleTask = () => {
   const {id} = useParams(); 
   const {taskDetail} = useTaskDetails(id);
+  const { UpdateData } = useContext(UserContext);
   const [taskdetails, setTaskdetails] = useState({
     id: id,
     taskName: '',
@@ -16,10 +17,9 @@ const ViewSingleTask = () => {
 
   useEffect(()=>{
     setTaskdetails({...taskdetails, taskName: taskDetail.taskName, taskDescription: taskDetail.taskDescription});
-    
   },[taskDetail])
 
-  const { UpdateData } = useContext(UserContext);
+  
   
   const navigate = useNavigate();
 

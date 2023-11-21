@@ -5,30 +5,25 @@ import swal from 'sweetalert';
 import UserContext from '../../context/UserContext';
 
 const Login = () => {
-  const { setSignedIn} = useContext(UserContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [remember, setRemember] = useState('off');
   const[error, setError] = useState('off');
 
-  axios.defaults.withCredentials= true;
   async function handleSubmit(e) { 
     e.preventDefault();
     try{
-      await axios.post("https://task-manager-server-rust.vercel.app/api/users/login",{
+      await axios.post("http://localhost:5000/api/user/login",{
         email, password
       })
       .then(res=>{ 
         if(res.data.login===true){
-          console.log(res.login, res.data.role);
+          console.log(res.data.user.role);
           if(res.data.user.role==="user"){
-            setSignedIn("user");
             localStorage.setItem("role","user");
             navigate("/userTask");
           }
           else if(res.data.user.role==="admin"){
-            setSignedIn("admin");
             localStorage.setItem("role","admin");
             navigate("/adminTask");
           }
@@ -72,17 +67,6 @@ const Login = () => {
               placeholder="Password" 
               required
               className='w-full text-black py-2 my-2 bg-transparent border-b border-black outline-none focus:outline-none' />
-            </div>
-
-            <div className='w-full flex items-center justify-between'>
-              <div className='w-full flex items-center'>
-                <input 
-                type="checkbox" 
-                onChange={(e) => setRemember(e.target.value)}
-                className="w-4 h-4 mr-2"/>
-                <p className='text-sm'>Remember me</p>
-              </div>
-              <p className='text-sm font-medium whitespace-nowrap cursor-pointer underline underline-offset-2'>Forgot Password ?</p>
             </div>
 
             <div className='w-full flex flex-col my-4'>

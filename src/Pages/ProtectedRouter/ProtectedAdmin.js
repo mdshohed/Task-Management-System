@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom'
 import UserContext from '../../context/UserContext';
 
 function ProtectedAdmin({ children }) {
-  const { signIn, userRole} = useContext(UserContext);
+  const { signIn} = useContext(UserContext);
 
   if (signIn !== "admin") {
     return <Navigate to="/login" replace />

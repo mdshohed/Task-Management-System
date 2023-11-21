@@ -1,15 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import swal from 'sweetalert';
+import useTaskInfo from '../../../../hooks/useTaskInfo';
 
 const AdminDashboard = () => {
-  const [task, setTask] = useState([]);
-
-  useEffect(()=>{
-    axios.get('https://task-manager-server-rust.vercel.app').then((response) => {
-      setTask(response.data);
-    });
-  },[task])
+  const [task, setTask] = useTaskInfo();
 
   return (
     <>

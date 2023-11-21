@@ -3,7 +3,8 @@ import useTaskInfo from '../../../../hooks/useTaskInfo';
 import UserContext from '../../../../context/UserContext';
 
 const UserDashboard = () => {
-  const {task} = useContext(UserContext)
+  const [task, DeleteTask] = useTaskInfo(); 
+  console.log( task, "Task View page")
 
   return (
     <>
