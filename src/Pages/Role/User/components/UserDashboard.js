@@ -4,7 +4,6 @@ import UserContext from '../../../../context/UserContext';
 
 const UserDashboard = () => {
   const [task, DeleteTask] = useTaskInfo(); 
-  console.log( task, "Task View page")
 
   return (
     <>
