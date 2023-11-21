@@ -2,6 +2,7 @@
   "name": "task-management-app",
   "version": "0.1.0",
   "private": true,
+  "proxy": "", 
   "dependencies": {
     "@headlessui/react": "^0.0.0-insiders.bfacb64",
     "@heroicons/react": "^2.0.18",
